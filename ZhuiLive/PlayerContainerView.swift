@@ -15,5 +15,5 @@ struct PlayerContainerView: UIViewRepresentable {
         return view
     }
 
-    func updateUIView(_ uiView: UIView) {}
+    func updateUIView(_ uiView: UIView, context: Context) {}
 }
