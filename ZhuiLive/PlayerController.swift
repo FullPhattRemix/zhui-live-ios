@@ -87,9 +87,9 @@ final class PlayerController: NSObject, ObservableObject, VLCMediaPlayerDelegate
         guard let mp = mediaPlayer, playing else { return }
         let speed = Self.modeSpeeds[modeIndex]
         if speed < 0 {
-            let c = ChaseController { [weak self] in self?.currentCache() }
+            let c = ChaseController { [weak self] in (self?.currentCache() ?? -1) }
             c.rateUpdate = { [weak mp] v in mp?.rate = v }
-            c.onPhase = { [weak self] phase, rate in
+            c.onPhase = { [weak self] (phase: String, rate: Float) in
                 self?.badgeText = "\(phase) \(String(format: "%.2f", rate))x"
             }
             chase = c
@@ -130,7 +130,7 @@ final class PlayerController: NSObject, ObservableObject, VLCMediaPlayerDelegate
     private var estCache: Double = 0
     private func currentCache() -> Double {
         guard let mp = mediaPlayer else { return -1 }
-        let t = Double(mp.time?.value ?? 0) / 1000.0   // VLCTime.value = 毫秒
+        let t = Double(mp.time.value) / 1000.0   // VLCTime.value = 毫秒
         let now = Date().timeIntervalSince1970
         if lastWall > 0 {
             let advanced = t - lastTime

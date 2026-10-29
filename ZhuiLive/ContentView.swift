@@ -161,9 +161,9 @@ struct FullscreenOverlay: View {
 extension Color {
     init(hex: Int, alpha: Double = 1) {
         self.init(.sRGB,
-                  Double((hex >> 16) & 0xFF) / 255,
-                  Double((hex >> 8) & 0xFF) / 255,
-                  Double(hex & 0xFF) / 255,
+                  red: Double((hex >> 16) & 0xFF) / 255,
+                  green: Double((hex >> 8) & 0xFF) / 255,
+                  blue: Double(hex & 0xFF) / 255,
                   opacity: alpha)
     }
 }

@@ -8,9 +8,10 @@ enum StreamResolver {
     static func resolve(_ input: String,
                         done: @escaping (String, [String: String]) -> Void,
                         onFailure: @escaping (String) -> Void) {
-        guard let url = input.firstMatch(of: /https?:\/\/\S+/)?.0 else {
+        guard let m = input.firstMatch(of: /https?:\/\/\S+/) else {
             return onFailure("未找到链接")
         }
+        let url = String(m.0)
         let lower = url.lowercased()
         let isXhs = lower.contains("xhslink") || lower.contains("xiaohongshu") || lower.contains("xhscdn")
 

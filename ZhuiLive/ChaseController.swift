@@ -43,7 +43,7 @@ final class ChaseController {
             else { healthySince = 0 }
             if healthySince > 0 && now - healthySince >= 3 { enter("ramp_up", rate); healthySince = 0 }
         case "ramp_up":
-            let t = min(1, max(0, (now - phaseSince) / 3))
+            let t = Float(min(1, max(0, (now - phaseSince) / 3)))
             rate = 1.01 + 0.09 * t
             if !healthy { enter("ramp_down", rate) }
             else if t >= 1 { enter("probe", 1.1) }
@@ -52,7 +52,7 @@ final class ChaseController {
             else if cache >= 0.465 { enter("ramp_burst", 1.1) }
             else if now - phaseSince >= 4 { enter("cruise", 1.01) }
         case "ramp_burst":
-            let t = min(1, max(0, (now - phaseSince) / 2))
+            let t = Float(min(1, max(0, (now - phaseSince) / 2)))
             rate = 1.1 + 0.9 * t
             if underrun { enter("ramp_down", 1.1) }
             else if t >= 1 { enter("burst", 2.0) }
@@ -60,7 +60,7 @@ final class ChaseController {
             rate = phase == "burst" ? 2.0 : 1.5
             if !underrun && now - phaseSince >= (phase == "fast" ? 8 : 3) { enter("ramp_down", 1.1) }
         case "ramp_down":
-            let t = min(1, max(0, (now - phaseSince) / 3))
+            let t = Float(min(1, max(0, (now - phaseSince) / 3)))
             rate = entryRate + (1.01 - entryRate) * t
             if t >= 1 { enter("cruise", 1.01) }
         default: // cruise / steady
