@@ -22,3 +22,13 @@ targets:
         GENERATE_INFOPLIST_FILE: "NO"
         INFOPLIST_FILE: ZhuiLive/Info.plist
         ENABLE_BITCODE: "NO"
+
+schemes:
+  ZhuiLive:
+    build:
+      targets:
+        ZhuiLive: release
+    run:
+      config: Release
+    archive:
+      config: Release

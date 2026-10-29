@@ -16,6 +16,12 @@ jobs:
           brew install xcodegen
           brew install cocoapods
 
+      - name: Select Xcode 16
+        run: |
+          ls -d /Applications/Xcode*.app
+          sudo xcode-select -s "$(ls -d /Applications/Xcode_16*.app | sort | tail -1)"
+          xcodebuild -version
+
       - name: Generate project & install pods
         run: |
           xcodegen generate
