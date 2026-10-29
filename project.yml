@@ -1,0 +1,24 @@
+name: ZhuiLive
+options:
+  bundleIdPrefix: com.zhui
+  deploymentTarget:
+    iOS: "16.0"
+targets:
+  ZhuiLive:
+    type: application
+    platform: iOS
+    sources:
+      - path: ZhuiLive
+        excludes: ["Info.plist"]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.zhui.live
+        MARKETING_VERSION: 1.0.0
+        CURRENT_PROJECT_VERSION: 1
+        SWIFT_VERSION: 5.9
+        TARGETED_DEVICE_FAMILY: 1
+        CODE_SIGNING_ALLOWED: "NO"
+        CODE_SIGNING_REQUIRED: "NO"
+        GENERATE_INFOPLIST_FILE: "NO"
+        INFOPLIST_FILE: ZhuiLive/Info.plist
+        ENABLE_BITCODE: "NO"
