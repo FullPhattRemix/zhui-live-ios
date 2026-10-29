@@ -1,0 +1,42 @@
+name: Build iOS IPA
+
+on:
+  push: { branches: [main, master] }
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-14
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install XcodeGen & CocoaPods
+        run: |
+          brew install xcodegen
+          brew install cocoapods
+
+      - name: Generate project & install pods
+        run: |
+          xcodegen generate
+          pod install --repo-update
+
+      - name: Build unsigned IPA
+        run: |
+          xcodebuild -workspace ZhuiLive.xcworkspace \
+            -scheme ZhuiLive -configuration Release \
+            -sdk iphoneos -destination 'generic/platform=iOS' \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO \
+            -derivedDataPath build build
+          mkdir -p Payload
+          cp -r build/Build/Products/Release-iphoneos/ZhuiLive.app Payload/
+          zip -qry ZhuiLive-unsigned.ipa Payload
+
+      - name: Summarize
+        if: always()
+        run: ls -la ZhuiLive-unsigned.ipa 2>/dev/null || echo "IPA not produced"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ZhuiLive-ipa
+          path: ZhuiLive-unsigned.ipa
