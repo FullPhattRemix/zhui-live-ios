@@ -130,7 +130,7 @@ final class PlayerController: NSObject, ObservableObject, VLCMediaPlayerDelegate
     private var estCache: Double = 0
     private func currentCache() -> Double {
         guard let mp = mediaPlayer else { return -1 }
-        let t = Double(mp.time.value) / 1000.0   // VLCTime.value = 毫秒
+        let t = Double(mp.time.value?.doubleValue ?? 0) / 1000.0   // VLCTime.value = 毫秒
         let now = Date().timeIntervalSince1970
         if lastWall > 0 {
             let advanced = t - lastTime
